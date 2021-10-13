@@ -207,3 +207,35 @@ if __name__ == "__main__" :
                 lePokemonSpawn(i)
 
 
+    class Inventory():
+
+        def __init__(self):
+            self.pokemon = []
+            self.objects = []
+            self.money = 0
+
+    def add_money(self, price):
+        self.money += price
+
+    def __repr__(self):
+        a = "$$$ : " + str(self.money) + "\n"
+        a += "pokemons : " + self.pokemon + "\n"
+        a += "objets : " + self.objects + "\n"
+        return a
+
+        
+
+        
+
+
+# class fight:
+
+
+
+#     from constants import pokeball
+#     class shop:
+
+#         def buy(self, item):
+#             inventory.money > item.price
+#             inventory += item 
+
