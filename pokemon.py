@@ -1,4 +1,4 @@
-# 1 - créer une liste des pokémons, incluant une chance de spawn (0% - 100%) 
+# 1 - créer une liste des pokémons, incluant une chance de spawn (0% - 100%)
 # 2 - créer une méthode spwan, qui, en fonction de la chance de spawn, fait spawn un pokémon (affiche son nom)
 # 3 - faire spawn 10000 pokémons, calculer le % de chaque pokémon spawn
 # 4 - comparer le % de spawn avec la chance de spawn du pokémon. Afficher pour chaque pokémon spawn,
@@ -21,48 +21,63 @@
 
 # 10 - Mettre en place les pokedollars ($). Chaque combat gagné rapporte entre 1 et 2000 pokedollars
 
-# 11 - Ajouter un shop, avec les prix suivants : 
+# 11 - Ajouter un shop, avec les prix suivants :
 #       -> pokeball : 200$
 #       -> superball : 600$
 #       -> hyperball : 1 200$
 #       -> masterball : 50 000$
 
-# 12 - Mettre en place le tout dans un programme en CLI, avec un menu : 
+# 12 - Mettre en place le tout dans un programme en CLI, avec un menu :
 #       -> shop
 #       -> spawn (entraine capture OU combat (combat entraine le choix d'un de vos pokémon qui va combattre) )
 #       -> inventaire objets
-#       -> inventaire pokemon 
+#       -> inventaire pokemon
 
 
-import random, string, time, pypokedex
+import random
+import string
+import time
+import pypokedex
+from pypokedex import pokemon
+
+pokemon1 = [
+    {
+        "name": "Alakazam",
+        'defence': 20,
+        'attack': 15
+    }
+
+]
+
 
 class Pokemon():
     max = 0
 
     def __init__(self, id):
-        self.timeStart = time.time_ns()           
-        self.pokemon = pypokedex.get(dex = id)
-        self.spawnrate = random.randint(0,100)
+        self.timeStart = time.time_ns()
+        self.pokemon = pypokedex.get(dex=id)
+        self.spawnrate = random.randint(0, 100)
         self.startSpawn = self.__class__.max
         self.__class__.max += self.spawnrate
         self.endSpawn = self.__class__.max
 
     def __repr__(self):
         return self.pokemon.name
-    
 
-if __name__ == "__main__" :
+
+if __name__ == "__main__":
     sum = 0
     test = {}
     result = {}
-    for i in range (1, 10):
+    for i in range(1, 10):
         test[i] = Pokemon(i)
         print(test[i].pokemon.name)
         sum += test[i].spawnrate
         result[test[i].pokemon.name] = 0
-    
+
     for i in test:
-         print("le pokémon : ", test[i].pokemon.name, "  a une chance de spawn de : ", "{:.2f}".format(test[i].spawnrate/(test[i].max/100)), "%")
+        print("le pokémon : ", test[i].pokemon.name, "  a une chance de spawn de : ", "{:.2f}".format(
+            test[i].spawnrate/(test[i].max/100)), "%")
 
     for i in range(10000):
         spawn = random.randint(1, test[1].max)
@@ -71,128 +86,152 @@ if __name__ == "__main__" :
                 # print("le pokemon est spawn: ", test[i].pokemon.name, "   et son taux de spawn est:  ", test[i].spawnrate, "%")
                 result[test[i].pokemon.name] += 1
                 break
-    
+
     for i in result:
-        print("pokémon: ", i, "  quantité:  ", result[i], "pourcentage: ", "{:.2f}".format(result[i]/100))
+        print("pokémon: ", i, "  quantité:  ",
+              result[i], "pourcentage: ", "{:.2f}".format(result[i]/100))
 
-Pokeball =[
- 
+Pokeball = [
+
     {
-        "name" : "Pokeball",
-        "percent" : 30,
-        "total" : 80
+        "name": "Pokeball",
+        "percent": 30,
+        "total": 80
 
-    },
-     {
-        "name" : "Superball",
-        "percent" : 50,
-        "total" : 50
-    },
-     {
-        "name" : "Hyperball",
-        "percent" : 70,
-        "total" : 30
-    },
-    {   "name" : "Masterball",
-        "percent" : 100,
-        "total" : 1
     },
     {
-        "name" : "PokeDollars",
-        "total" : 5000
+        "name": "Superball",
+        "percent": 50,
+        "total": 50
+    },
+    {
+        "name": "Hyperball",
+        "percent": 70,
+        "total": 30
+    },
+    {"name": "Masterball",
+        "percent": 100,
+        "total": 1
+     },
+    {
+        "name": "PokeDollars",
+        "total": 5000
     }
 ]
 
 
-def lePokemonSpawn(name): 
-    print("****************************************")
-    print("                                        ")
-    print("    Un ",name," sauvage est apparu !    ")
-    print("                                        ")
-    print("    1- Capturer  2- Fuir  3- Attaquer   ")
-    print("                                        ")
-    print("****************************************")
+def lePokemonSpawn(pokemon):
+        print("****************************************")
+        print("                                        ")
+        print("    Un ", pokemon, " sauvage est apparu !  ")
+        print("    Un ", pokemon.name, " sauvage est apparu !  ")
+        print("                                        ")
+        print("       1- Capturer  2- Fuir             ")
+        print("       3- Attaquer  4- Boutique         ")
+        print("****************************************")
 
-    while True:
-            input1 = int(input())
-            if  input1 == 1:
-                capture(name)
-                break
-            elif input1 == 2:
-                print("***********************************")
-                print("                                  -")
-                print("     Vous avez pris la fuite !    -")
-                print("                                  -")
-                print("***********************************")
-                break
+
+
+while True:
+    input1 = int(input())
+    if input1 == 1:
+        capture(pokemon)
+    elif input1 == 2:
+        print("***********************************")
+        print("                                  -")
+        print("     Vous avez pris la fuite !    -")
+        print("                                  -")
+        print("***********************************")
+        break
+    elif input1 == 3:
+        fight(pokemon1,Pokemon)
+    #  fight(pokemon1, pokemon)
+
 
 def capture(name):
-      
-        print("***********************************")
-        print("-                                 -")
-        print("-   1- Pokeball    2- Superball   -")
-        print("-                                 -")
-        print("-   3- Hyperball   4- Masterball  -")
-        print("-                                 -")
-        print("***********************************")
 
-        while True:
-            input3 = int(input())
-            poke = Pokemon(1)
-            a = random.randint(1, 100)
-            if input3 == 4:
-                Pokeball[input3-1]["total"]-=1
-                print(Pokeball)
-                print("***********************************")
-                print("-                                 -")
-                print("-    Vous avez capturé",name,"!   -")
-                print("-                                 -")
-                print("***********************************")
-                break
-            if (Pokeball[input3-1]['percent']/(1+(poke.resistancerate/100))) >= a:
-                Pokeball[input3-1]["total"]-=1
-                print(Pokeball)
-                print("***********************************")
-                print("-                                 -")
-                print("-    Vous avez capturé",name,"!   -")
-                print("-                                 -")
-                print("***********************************")
-                break
-            else:
-                print("Raté ! ")
-                Pokeball[input3-1]["total"]-=1
-                print(Pokeball)
-                capture(name)
-            
-            
+    print("***********************************")
+    print("-                                 -")
+    print("-   1- Pokeball    2- Superball   -")
+    print("-                                 -")
+    print("-   3- Hyperball   4- Masterball  -")
+    print("-                                 -")
+    print("***********************************")
+
+    while True:
+        input3 = int(input())
+        poke = Pokemon(1)
+        a = random.randint(1, 100)
+        if input3 == 4:
+            Pokeball[input3-1]["total"] -= 1
+            print(Pokeball)
+            print("***********************************")
+            print("-                                 -")
+            print("-    Vous avez capturé", name, "! -")
+            print("-                                 -")
+            print("***********************************")
+            break
+        if (Pokeball[input3-1]['percent']/(1+(poke.resistancerate/100))) >= a:
+            Pokeball[input3-1]["total"] -= 1
+            print(Pokeball)
+            print("***********************************")
+            print("-                                 -")
+            print("-    Vous avez capturé", name, "! -")
+            print("-                                 -")
+            print("***********************************")
+            break
+        else:
+            print("Raté ! ")
+            Pokeball[input3-1]["total"] -= 1
+            print(Pokeball)
+            capture(name)
+
+
+def fight(pokemon1, pokemon2):
+    # print(lePokemonSpawn)
+    r1 = int(pokemon1[0]['attack'] / pokemon1[0]['defence'] * 100)
+    r2 = int(pokemon2[3] / pokemon2[4] * 100)
+    print(r1, r2)
+    max_number = r1 + r2
+    r = random.randint(0, max_number)
+    if(r <= r1):
+        print(pokemon1)
+        return pokemon1
+    # print(pokemon2)
+    return pokemon2
+
+
 class Pokemon():
     max = 0
 
     def __init__(self, id):
-        self.timeStart = time.time_ns()           
-        self.pokemon = pypokedex.get(dex = id)
-        self.spawnrate = random.randint(0,100)
-        self.resistancerate = random.randint(0,50)
+        self.timeStart = time.time_ns()
+        self.pokemon = pypokedex.get(dex=id)
+        self.spawnrate = random.randint(0, 100)
+        self.resistancerate = random.randint(0, 50)
         self.startSpawn = self.__class__.max
         self.__class__.max += self.spawnrate
         self.endSpawn = self.__class__.max
+        self.attackrate = random.randint(0, 50)
+        self.defencerate = random.randint(0, 50)
 
     def __repr__(self):
         return self.pokemon.name
 
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     sum = 0
     test = {}
     result = {}
-    for i in range (1, 10):
+    for i in range(1, 10):
         test[i] = Pokemon(i)
         print(test[i].pokemon.name)
         sum += test[i].spawnrate
         result[test[i].pokemon.name] = 0
-    
+
     for i in test:
-         print("le pokémon : ", test[i].pokemon.name, "  a une chance de spawn de : ", "{:.2f}".format(test[i].spawnrate/(test[i].max/10)), "%")
+        print("le pokémon : ", test[i].pokemon.name, "  a une chance de spawn de : ", "{:.2f}".format(
+            test[i].spawnrate/(test[i].max/10)), "%")
 
     for i in range(1):
         spawn = random.randint(1, test[1].max)
@@ -203,9 +242,8 @@ if __name__ == "__main__" :
                 break
         for i in result:
             if result[i] != 0:
-                #print("pokémon: ", i, "  quantité:  ", result[i], "pourcentage: ", "{:.2f}".format(result[i]/100))
+                # print("pokémon: ", i, "  quantité:  ", result[i], "pourcentage: ", "{:.2f}".format(result[i]/100))
                 lePokemonSpawn(i)
-
 
     class Inventory():
 
@@ -214,22 +252,14 @@ if __name__ == "__main__" :
             self.objects = []
             self.money = 0
 
-    def add_money(self, price):
-        self.money += price
+        def add_money(self, price):
+            self.money += price
 
-    def __repr__(self):
-        a = "$$$ : " + str(self.money) + "\n"
-        a += "pokemons : " + self.pokemon + "\n"
-        a += "objets : " + self.objects + "\n"
-        return a
-
-        
-
-        
-
-
-# class fight:
-
+        def __repr__(self):
+            a = "$$$ : " + str(self.money) + "\n"
+            a += "pokemons : " + self.pokemon + "\n"
+            a += "objets : " + self.objects + "\n"
+            return a
 
 
 #     from constants import pokeball
@@ -237,5 +267,4 @@ if __name__ == "__main__" :
 
 #         def buy(self, item):
 #             inventory.money > item.price
-#             inventory += item 
-
+#             inventory += item
